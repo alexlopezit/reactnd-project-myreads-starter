@@ -1,0 +1,19 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "at-rule-no-unknown": [ true, {
+      "ignoreAtRules": ["each", "else", "extend", "for", "function", "if", "include", "mixin", "return", "while"],
+    }],
+    "declaration-empty-line-before": [
+      "never",
+      { "ignore": ["after-declaration"] }
+    ],
+    "max-line-length": 120,
+    "max-nesting-depth": [
+      4,
+      { "ignore": [ "blockless-at-rules" ] }
+    ],
+    "selector-pseudo-element-colon-notation": "single",
+    "string-quotes": "single"
+  }
+}
