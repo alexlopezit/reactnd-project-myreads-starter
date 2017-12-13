@@ -3,15 +3,14 @@ import * as BooksAPI from './BooksAPI'
 
 class Book extends React.Component {
 
-  changShelf = (shelf) => {
-    BooksAPI.update(this.props.book, shelf).then((response) => {
-      console.log(response)
-      // this.setState({ newBooks })
+  handleShelfChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    BooksAPI.update(this.props.book, e.target.value).then((response) => {
+      this.props.onChange(response)
     })
   }
 
   render() {
-    const { changShelf } = this
+    const { handleShelfChange } = this
     const { book } = this.props
     const bookSmallThumbnail = book.imageLinks.smallThumbnail
     return(
@@ -20,7 +19,7 @@ class Book extends React.Component {
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${bookSmallThumbnail})` }}></div>
             <div className="book-shelf-changer">
-              <select onChange={ (event) => changShelf(event.target.value) } value={ book.shelf }>
+              <select onChange={ handleShelfChange } value={ book.shelf }>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>

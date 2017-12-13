@@ -19,16 +19,25 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      console.log(books)
-      this.setState({ books })
+      const currentlyReading = books.filter((book) => book.shelf === 'currentlyReading' )
+      const wantToRead = books.filter((book) => book.shelf === 'wantToRead' )
+      const read = books.filter((book) => book.shelf === 'read' )
+      this.setState({ books, currentlyReading, wantToRead, read })
+    })
+  }
+
+  handleUpdates = (updatedBooks) => {
+    console.log('handleUpdates')
+    this.setState({
+      currentlyReading: this.state.books.filter((book) => updatedBooks.currentlyReading.indexOf(book.id) >= 0 ),
+      wantToRead: this.state.books.filter((book) => updatedBooks.wantToRead.indexOf(book.id) >= 0 ),
+      read: this.state.books.filter((book) => updatedBooks.read.indexOf(book.id) >= 0 )
     })
   }
 
   render() {
-    const { books } = this.state
-    const currentlyReadingBooks = books.filter((book) => book.shelf === 'currentlyReading' )
-    const wantToReadBooks = books.filter((book) => book.shelf === 'wantToRead' )
-    const readBooks = books.filter((book) => book.shelf === 'read' )
+    const { handleUpdates } = this
+    const { currentlyReading, wantToRead, read } = this.state
     return (
       <div className="app">
         <Route exact path="/" render={ () => (
@@ -40,15 +49,15 @@ class BooksApp extends React.Component {
               <div>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Currently Reading</h2>
-      			  <BookShelf books={ currentlyReadingBooks } />
+      			      <BookShelf books={ currentlyReading } onChange={ handleUpdates } />
                 </div>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Want to Read</h2>
-      			  <BookShelf books={ wantToReadBooks } />
+      			      <BookShelf books={ wantToRead } onChange={ handleUpdates } />
                 </div>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Read</h2>
-                  <BookShelf books={ readBooks } />
+                  <BookShelf books={ read } onChange={ handleUpdates } />
                 </div>
               </div>
             </div>
@@ -59,7 +68,7 @@ class BooksApp extends React.Component {
         ) } />
 
         <Route path="/search" render={ () => (
-          <SearchBooks />
+          <SearchBooks onChange={ handleUpdates } />
         )} />
       </div>
     )

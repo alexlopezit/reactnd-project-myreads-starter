@@ -63,7 +63,7 @@ class SearchBooks extends React.Component {
           <ol className="books-grid">
             {
               newBooks && newBooks.map( (book) => {
-                return book && <Book key={ book.id } book={ book } />
+                return book && <Book key={ book.id } book={ book } onChange={ this.props.onChange } />
               })
             }
           </ol>
