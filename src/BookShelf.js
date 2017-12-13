@@ -8,12 +8,6 @@ class BookShelf extends React.Component {
     books: PropTypes.array.isRequired
   }
 
-
-  handleUpdates = (response?: array) => {
-    console.log(response)
-    // console.log('handle here')
-  }
-
   renderBookshelf = (books: any) => {
     return(
       <div className="bookshelf-books">
