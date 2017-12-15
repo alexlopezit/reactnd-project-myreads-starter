@@ -13,14 +13,15 @@ class Book extends React.Component {
     const { handleShelfChange } = this
     const { book } = this.props
     const bookSmallThumbnail = book.imageLinks.smallThumbnail
+    const selectedShelf = ( book && book.shelf ) ? book.shelf : 'none'
     return(
       <li>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${bookSmallThumbnail})` }}></div>
             <div className="book-shelf-changer">
-              <select onChange={ handleShelfChange } value={ book.shelf }>
-                <option value="none" disabled>Move to...</option>
+              <select onChange={ handleShelfChange } value={ selectedShelf }>
+                <option disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
