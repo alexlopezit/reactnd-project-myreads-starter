@@ -28,7 +28,6 @@ class BooksApp extends React.Component {
   }
 
   handleUpdates = (updatedBooks) => {
-    console.log('handleUpdates')
     this.setState({
       currentlyReading: this.state.books.filter((book) => updatedBooks.currentlyReading.indexOf(book.id) >= 0 ),
       wantToRead: this.state.books.filter((book) => updatedBooks.wantToRead.indexOf(book.id) >= 0 ),
