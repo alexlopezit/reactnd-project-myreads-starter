@@ -5,7 +5,8 @@ import Book from './Book'
 class BookShelf extends React.Component {
 
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired
   }
 
   renderBookshelf = (books: any) => {

@@ -1,7 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 
 class Book extends React.Component {
+
+  static propTypes = {
+    book: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
+  }
 
   constructor(props) {
     super(props)
