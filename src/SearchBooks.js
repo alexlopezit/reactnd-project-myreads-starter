@@ -14,28 +14,31 @@ class SearchBooks extends React.Component {
   }
 
   updateQuery = (query) => {
-    // console.log(query)
+    const { myBooks } = this.props
+
     this.setState({ query })
 
-    // TODO: Add delay for query or after 3 characters
-    BooksAPI.search(query, 20).then((newBooks) => {
+    BooksAPI.search(query, 20).then((response) => {
 
-      if (newBooks !== null) {
-        // console.log(newBooks)
-        this.setState({ newBooks })
-      }
+      const newBooks = response.map( (object) => {
+
+        const found = myBooks.filter( (mb) => mb.id === object.id )
+
+        if(found.length === 1) {
+          const newObject = Object.assign({'shelf': found[0].shelf}, object)
+          return newObject
+        } else {
+          return object
+        }
+      })
+
+      this.setState({ newBooks: newBooks })
     })
   }
 
   render() {
     const { query, newBooks } = this.state
     const { updateQuery } = this
-
-    // let showingBooks
-
-    // if(query) {
-    //   console.log(query)
-    // }
 
     return(
       <div className="search-books">
