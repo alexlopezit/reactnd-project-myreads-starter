@@ -20,26 +20,34 @@ class SearchBooks extends React.Component {
   }
 
   updateQuery = (query) => {
-    const { myBooks } = this.props
 
-    this.setState({ query })
+    if(query !== '') {
 
-    BooksAPI.search(query, 20).then((response) => {
+      const { myBooks } = this.props
 
-      const newBooks = response.map( (object) => {
+      this.setState({ query })
 
-        const found = myBooks.filter( (mb) => mb.id === object.id )
+      BooksAPI.search(query, 20).then((response) => {
 
-        if(found.length === 1) {
-          const newObject = Object.assign({'shelf': found[0].shelf}, object)
-          return newObject
-        } else {
-          return object
-        }
+        const newBooks = response.map( (object) => {
+
+          // check is a book is already on my shelf
+          const found = myBooks.filter( (mb) => mb.id === object.id )
+
+          if(found.length === 1) {
+            // assign the shelf
+            const newObject = Object.assign({'shelf': found[0].shelf}, object)
+            return newObject
+          } else {
+            return object
+          }
+        })
+
+        this.setState({ newBooks: newBooks })
       })
-
-      this.setState({ newBooks: newBooks })
-    })
+    } else {
+      this.setState({ query: '' })
+    }
   }
 
   render() {
@@ -71,7 +79,7 @@ class SearchBooks extends React.Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {
-              newBooks && newBooks.map( (book) => {
+              newBooks && query !== '' && newBooks.map( (book) => {
                 return book && <Book key={ book.id } book={ book } onChange={ this.props.onChange } />
               })
             }
