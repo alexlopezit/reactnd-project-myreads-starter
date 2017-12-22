@@ -16,7 +16,7 @@ class Book extends React.Component {
   render() {
     const { handleShelfChange } = this
     const { book } = this.props
-    const bookSmallThumbnail = book.imageLinks.smallThumbnail
+    const bookSmallThumbnail = book.imageLinks && book.imageLinks.smallThumbnail ? book.imageLinks.smallThumbnail : 'http://via.placeholder.com/128x193?text=No%20Cover'
     const selectedShelf = ( book && book.shelf ) ? book.shelf : 'none'
     return(
       <li>
