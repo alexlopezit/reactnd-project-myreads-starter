@@ -29,6 +29,12 @@ class SearchBooks extends React.Component {
 
       BooksAPI.search(query, 20).then((response) => {
 
+        // If response is error, clear books
+        if(response.error) {
+          this.setState({ newBooks: [] })
+          return
+        }
+
         const newBooks = response.map( (object) => {
 
           // check is a book is already on my shelf
