@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import * as BooksAPI from './BooksAPI'
 
 class Book extends React.Component {
 
@@ -9,32 +8,16 @@ class Book extends React.Component {
     onChange: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props)
-    const { book } = this.props
-    this.state = {
-      selectedShelf: ( book && book.shelf ) ? book.shelf : 'none'
-    }
-  }
-
   handleShelfChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const newShelf = e.target.value
-
-    BooksAPI.update(this.props.book, newShelf).then((response) => {
-      this.props.onChange(response)
-    })
-
-    this.setState({
-      selectedShelf: newShelf
-    })
+    this.props.onChange( this.props.book, newShelf)
   }
 
   render() {
     const { handleShelfChange } = this
     const { book } = this.props
-    const { selectedShelf } = this.state
     const bookSmallThumbnail = book.imageLinks.smallThumbnail
-    // const selectedShelf = ( book && book.shelf ) ? book.shelf : 'none'
+    const selectedShelf = ( book && book.shelf ) ? book.shelf : 'none'
     return(
       <li>
         <div className="book">
